@@ -1,0 +1,119 @@
+[  Wasp  ] src/crm/operations/leadOperations.ts(338,39): error TS2339: Property 'User' does not exist on type '{ Lead: LeadDelegate<DefaultArgs>; Conversation: ConversationDelegate<DefaultArgs>; }'.
+[  Wasp  ] src/crm/operations/leadOperations.ts(391,39): error TS2339: Property 'User' does not exist on type '{ Lead: LeadDelegate<DefaultArgs>; }'.
+[  Wasp  ] src/crm/operations/residentOperations.ts(161,39): error TS2339: Property 'User' does not exist on type '{ Organization: OrganizationDelegate<DefaultArgs>; Property: PropertyDelegate<DefaultArgs>; Resident: ResidentDelegate<DefaultArgs>; }'.
+[  Wasp  ] src/crm/pages/CampaignManagementPage.tsx(85,13): error TS2322: Type 'Payload' is not assignable to type 'OperationResult'.
+[  Wasp  ]   Type 'undefined' is not assignable to type 'OperationResult'.
+[  Wasp  ] src/crm/pages/CampaignManagementPage.tsx(112,13): error TS2322: Type 'Payload' is not assignable to type 'OperationResult'.
+[  Wasp  ]   Type 'undefined' is not assignable to type 'OperationResult'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(109,19): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(156,61): error TS2339: Property 'length' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(168,29): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(181,29): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(194,29): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/LeadsPage.tsx(378,41): error TS2339: Property 'length' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(58,62): error TS2339: Property 'firstName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'firstName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(58,84): error TS2339: Property 'lastName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'lastName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(63,43): error TS2339: Property 'id' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'id' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(89,39): error TS2339: Property 'leaseEndDate' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'leaseEndDate' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(149,27): error TS2339: Property 'firstName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'firstName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(149,48): error TS2339: Property 'lastName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'lastName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(152,27): error TS2339: Property 'property' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'property' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(152,59): error TS2339: Property 'unitNumber' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'unitNumber' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(181,58): error TS2339: Property 'status' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'status' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(182,31): error TS2339: Property 'status' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'status' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(196,46): error TS2339: Property 'monthlyRentAmount' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'monthlyRentAmount' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(224,31): error TS2339: Property 'maintenanceRequests' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'maintenanceRequests' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(241,38): error TS2339: Property 'maintenanceRequests' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'maintenanceRequests' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(244,41): error TS2339: Property 'conversations' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'conversations' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(260,60): error TS2339: Property 'email' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'email' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(267,60): error TS2339: Property 'phoneNumber' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'phoneNumber' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(274,60): error TS2339: Property 'property' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'property' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(275,83): error TS2339: Property 'unitNumber' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'unitNumber' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(286,29): error TS2339: Property 'emergencyContactName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'emergencyContactName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(290,62): error TS2339: Property 'emergencyContactName' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'emergencyContactName' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(294,62): error TS2339: Property 'emergencyContactPhone' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'emergencyContactPhone' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(298,62): error TS2339: Property 'emergencyContactRelationship' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'emergencyContactRelationship' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(320,33): error TS2339: Property 'leaseType' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'leaseType' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(326,48): error TS2339: Property 'monthlyRentAmount' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'monthlyRentAmount' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(332,33): error TS2339: Property 'rentDueDay' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'rentDueDay' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(333,33): error TS2339: Property 'rentDueDay' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'rentDueDay' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(333,68): error TS2339: Property 'rentDueDay' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'rentDueDay' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(333,103): error TS2339: Property 'rentDueDay' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'rentDueDay' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(338,74): error TS2339: Property 'moveInDate' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'moveInDate' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(342,74): error TS2339: Property 'leaseStartDate' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'leaseStartDate' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(346,74): error TS2339: Property 'leaseEndDate' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'leaseEndDate' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(361,105): error TS2339: Property 'id' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'id' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(367,25): error TS2339: Property 'maintenanceRequests' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'maintenanceRequests' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(367,57): error TS2339: Property 'maintenanceRequests' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'maintenanceRequests' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(369,29): error TS2339: Property 'maintenanceRequests' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'maintenanceRequests' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(418,104): error TS2339: Property 'id' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'id' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(424,25): error TS2339: Property 'conversations' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'conversations' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(424,51): error TS2339: Property 'conversations' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'conversations' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentDetailPage.tsx(428,33): error TS2339: Property 'conversations' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'conversations' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(75,33): error TS2339: Property 'length' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(92,28): error TS2339: Property 'map' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'map' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(164,49): error TS2339: Property 'length' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(184,65): error TS2339: Property 'length' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(196,33): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(209,33): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(222,33): error TS2339: Property 'filter' does not exist on type 'string | number | bigint | boolean | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'filter' does not exist on type 'string'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(278,40): error TS2339: Property 'length' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'length' does not exist on type 'number'.
+[  Wasp  ] src/crm/pages/ResidentsPage.tsx(292,30): error TS2339: Property 'map' does not exist on type 'string | number | bigint | true | RegExp | JSONArray | JSONObject | Set<SuperJSONValue> | Map<SuperJSONValue, SuperJSONValue> | Date | Decimal | SuperJSONArray | SuperJSONObject'.
+[  Wasp  ]   Property 'map' does not exist on type 'string'.
+[  Wasp  ] src/crm/twilio/campaignService.ts(283,20): error TS2345: Argument of type '{ organizationId: any; organizationName: any; status: string; }' is not assignable to parameter of type 'never'.
+[  Wasp  ] src/crm/twilio/campaignService.ts(289,20): error TS2345: Argument of type '{ organizationId: any; organizationName: any; status: string; error: any; }' is not assignable to parameter of type 'never'.
+[  Wasp  ] src/crm/twilio/webhooks.ts(7,34): error TS2353: Object literal may only specify known properties, and 'ignoredRoutes' does not exist in type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+

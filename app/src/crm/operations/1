@@ -1,0 +1,27 @@
+export const registerPlatformBrandOp = async (args: any, context: any) => {
+  return [];
+};
+
+export const setupOrganizationCommunication = async (args: any, context: any) => {
+  return null;
+};
+
+export const checkCampaignStatusOp = async (args: any, context: any) => {
+  return null;
+};
+
+export const checkAllPendingCampaignsOp = async (args: any, context: any) => {
+  return null;
+};
+
+export const getCampaignLimitsOp = async (args: any, context: any) => {
+  return { success: true };
+};
+
+export const suspendOrganizationCampaign = async (args: any, context: any) => {
+  return { success: true };
+};
+
+export const reactivateOrganizationCampaign = async (args: any, context: any) => {
+  return { success: true };
+};
