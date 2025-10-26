@@ -1,3 +1,6 @@
+// src/client/components/NavBar/NavBar.tsx
+// Updated to include CRM features
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth, logout } from 'wasp/client/auth';
 import { useState } from 'react';
@@ -11,9 +14,13 @@ import {
   User,
   Building2,
   Users,
+  UserPlus,
+  Wrench,
+  MessageSquare,
   Menu,
   X,
   DollarSign,
+  ChevronDown,
 } from 'lucide-react';
 
 export default function NavBar() {
@@ -21,6 +28,8 @@ export default function NavBar() {
   const location = useLocation();
   const { data: user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [crmDropdownOpen, setCrmDropdownOpen] = useState(false);
+  const [financeDropdownOpen, setFinanceDropdownOpen] = useState(false);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
@@ -35,27 +44,22 @@ export default function NavBar() {
 
   const isAdmin = user.isAdmin || user.role === 'ADMIN';
 
-  const navItems = [
-    { 
-      name: 'Dashboard', 
-      path: '/dashboard', 
-      icon: LayoutDashboard 
-    },
-    { 
-      name: 'Invoices', 
-      path: '/invoices', 
-      icon: FileText 
-    },
-    { 
-      name: 'Purchase Orders', 
-      path: '/purchase-orders', 
-      icon: ShoppingCart 
-    },
-    { 
-      name: 'Approvals', 
-      path: '/approvals', 
-      icon: CheckCircle 
-    },
+  const crmItems = [
+    { name: 'Residents', path: '/crm/residents', icon: Users },
+    { name: 'Leads', path: '/crm/leads', icon: UserPlus },
+    { name: 'Maintenance', path: '/crm/maintenance', icon: Wrench },
+    { name: 'Campaigns', path: '/crm/campaigns', icon: MessageSquare },
+  ];
+
+  const financeItems = [
+    { name: 'Invoices', path: '/invoices', icon: FileText },
+    { name: 'Purchase Orders', path: '/purchase-orders', icon: ShoppingCart },
+    { name: 'Approvals', path: '/approvals', icon: CheckCircle },
+  ];
+
+  const adminItems = [
+    { name: 'Users', path: '/admin/users', icon: Users },
+    { name: 'Configuration', path: '/admin/configuration', icon: Settings },
   ];
 
   const isActive = (path: string) => {
@@ -63,6 +67,17 @@ export default function NavBar() {
       return location.pathname === '/dashboard' || location.pathname === '/admin';
     }
     return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
+
+  const isParentActive = (items: any[]) => {
+    return items.some(item => isActive(item.path));
+  };
+
+  const closeAllDropdowns = () => {
+    setCrmDropdownOpen(false);
+    setFinanceDropdownOpen(false);
+    setAdminDropdownOpen(false);
+    setUserDropdownOpen(false);
   };
 
   return (
@@ -76,46 +91,159 @@ export default function NavBar() {
           >
             <Building2 className="h-7 w-7 text-blue-600" />
             <h1 className="text-lg font-bold hidden sm:block">
-              <span className="text-blue-600">Invoice</span>
-              <span className="text-gray-900">Flow</span>
+              <span className="text-blue-600">Property</span>
+              <span className="text-gray-900">Hub</span>
             </h1>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  className={`
-                    flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
-                    ${active 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-700 hover:bg-gray-100'
-                    }
-                  `}
-                >
-                  <Icon className="h-4 w-4" />
-                  {item.name}
-                </button>
-              );
-            })}
+            {/* Dashboard */}
+            <button
+              onClick={() => navigate('/dashboard')}
+              className={`
+                flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                ${isActive('/dashboard')
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-700 hover:bg-gray-100'
+                }
+              `}
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </button>
 
-            {/* Admin Dropdown - Click Based */}
+            {/* CRM Dropdown */}
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  setCrmDropdownOpen(!crmDropdownOpen);
+                  setFinanceDropdownOpen(false);
+                  setAdminDropdownOpen(false);
+                  setUserDropdownOpen(false);
+                }}
+                className={`
+                  flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                  ${isParentActive(crmItems)
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                  }
+                `}
+              >
+                <Users className="h-4 w-4" />
+                CRM
+                <ChevronDown className="h-3 w-3" />
+              </button>
+              {crmDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setCrmDropdownOpen(false)}
+                  ></div>
+                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-20">
+                    {crmItems.map(item => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.path}
+                          onClick={() => {
+                            navigate(item.path);
+                            setCrmDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors
+                            ${isActive(item.path)
+                              ? 'bg-blue-50 text-blue-600 font-medium'
+                              : 'text-gray-700 hover:bg-gray-100'
+                            }
+                          `}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {item.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Finance Dropdown */}
+            <div className="relative">
+              <button 
+                onClick={() => {
+                  setFinanceDropdownOpen(!financeDropdownOpen);
+                  setCrmDropdownOpen(false);
+                  setAdminDropdownOpen(false);
+                  setUserDropdownOpen(false);
+                }}
+                className={`
+                  flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                  ${isParentActive(financeItems)
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                  }
+                `}
+              >
+                <FileText className="h-4 w-4" />
+                Finance
+                <ChevronDown className="h-3 w-3" />
+              </button>
+              {financeDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setFinanceDropdownOpen(false)}
+                  ></div>
+                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-20">
+                    {financeItems.map(item => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.path}
+                          onClick={() => {
+                            navigate(item.path);
+                            setFinanceDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors
+                            ${isActive(item.path)
+                              ? 'bg-blue-50 text-blue-600 font-medium'
+                              : 'text-gray-700 hover:bg-gray-100'
+                            }
+                          `}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {item.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Admin Dropdown */}
             {isAdmin && (
               <div className="relative">
                 <button 
                   onClick={() => {
                     setAdminDropdownOpen(!adminDropdownOpen);
+                    setCrmDropdownOpen(false);
+                    setFinanceDropdownOpen(false);
                     setUserDropdownOpen(false);
                   }}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                    ${isParentActive(adminItems)
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                    }
+                  `}
                 >
                   <Settings className="h-4 w-4" />
                   Admin
+                  <ChevronDown className="h-3 w-3" />
                 </button>
                 {adminDropdownOpen && (
                   <>
@@ -123,27 +251,29 @@ export default function NavBar() {
                       className="fixed inset-0 z-10" 
                       onClick={() => setAdminDropdownOpen(false)}
                     ></div>
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-20">
-                      <button
-                        onClick={() => {
-                          navigate('/admin/users');
-                          setAdminDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <Users className="h-4 w-4" />
-                        Manage Users
-                      </button>
-                      <button
-                        onClick={() => {
-                          navigate('/admin/configuration');
-                          setAdminDropdownOpen(false);
-                        }}
-                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <Settings className="h-4 w-4" />
-                        Configuration
-                      </button>
+                    <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-20">
+                      {adminItems.map(item => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.path}
+                            onClick={() => {
+                              navigate(item.path);
+                              setAdminDropdownOpen(false);
+                            }}
+                            className={`
+                              w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors
+                              ${isActive(item.path)
+                                ? 'bg-blue-50 text-blue-600 font-medium'
+                                : 'text-gray-700 hover:bg-gray-100'
+                              }
+                            `}
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.name}
+                          </button>
+                        );
+                      })}
                     </div>
                   </>
                 )}
@@ -170,7 +300,7 @@ export default function NavBar() {
               <button 
                 onClick={() => {
                   setUserDropdownOpen(!userDropdownOpen);
-                  setAdminDropdownOpen(false);
+                  closeAllDropdowns();
                 }}
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
               >
@@ -178,6 +308,7 @@ export default function NavBar() {
                 <span className="hidden lg:inline max-w-[150px] truncate">
                   {user.username || user.email}
                 </span>
+                <ChevronDown className="h-3 w-3" />
               </button>
               {userDropdownOpen && (
                 <>
@@ -229,9 +360,32 @@ export default function NavBar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t bg-white">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            {navItems.map((item) => {
+            {/* Dashboard */}
+            <button
+              onClick={() => {
+                navigate('/dashboard');
+                setMobileMenuOpen(false);
+              }}
+              className={`
+                w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium
+                ${isActive('/dashboard')
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-gray-700 hover:bg-gray-100'
+                }
+              `}
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </button>
+
+            {/* CRM Section */}
+            <div className="border-t my-2"></div>
+            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              CRM
+            </div>
+            {crmItems.map(item => {
               const Icon = item.icon;
-              const active = isActive(item.path);
               return (
                 <button
                   key={item.path}
@@ -240,8 +394,37 @@ export default function NavBar() {
                     setMobileMenuOpen(false);
                   }}
                   className={`
-                    w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium
-                    ${active 
+                    w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium pl-8
+                    ${isActive(item.path)
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.name}
+                </button>
+              );
+            })}
+
+            {/* Finance Section */}
+            <div className="border-t my-2"></div>
+            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Finance
+            </div>
+            {financeItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`
+                    w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium pl-8
+                    ${isActive(item.path)
                       ? 'bg-blue-600 text-white' 
                       : 'text-gray-700 hover:bg-gray-100'
                     }
@@ -257,29 +440,32 @@ export default function NavBar() {
             {isAdmin && (
               <>
                 <div className="border-t my-2"></div>
-                <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">
+                <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
                   Admin
                 </div>
-                <button
-                  onClick={() => {
-                    navigate('/admin/users');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
-                >
-                  <Users className="h-4 w-4" />
-                  Manage Users
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/admin/configuration');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
-                >
-                  <Settings className="h-4 w-4" />
-                  Configuration
-                </button>
+                {adminItems.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => {
+                        navigate(item.path);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`
+                        w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium pl-8
+                        ${isActive(item.path)
+                          ? 'bg-blue-600 text-white' 
+                          : 'text-gray-700 hover:bg-gray-100'
+                        }
+                      `}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.name}
+                    </button>
+                  );
+                })}
               </>
             )}
 

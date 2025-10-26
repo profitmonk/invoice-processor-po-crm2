@@ -713,6 +713,14 @@ page CampaignManagementPage {
   authRequired: true,
   component: import CampaignManagementPage from "@src/crm/pages/CampaignManagementPage"
 }
+// ==========================================
+// CRM DASHBOARD
+// ==========================================
+route CRMDashboardRoute { path: "/dashboard", to: CRMDashboardPage }
+page CRMDashboardPage {
+  authRequired: true,
+  component: import CRMDashboard from "@src/crm/pages/CRMDashboardPage"
+}
 
 // ============================================
 // RESIDENT OPERATIONS
@@ -840,6 +848,48 @@ api twilioStatusCallback {
   middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
   httpRoute: (POST, "/api/twilio/status")
 }
+
+// ============================================
+// MAINTNANCE
+// ============================================
+// 1. Route
+route MaintenanceRequestsRoute { path: "/crm/maintenance", to: MaintenanceRequestsPage }
+page MaintenanceRequestsPage {
+  authRequired: true,
+  component: import MaintenancePage from "@src/crm/pages/MaintenancePage"
+}
+
+// 2. Query
+query getMaintenanceRequests {
+  fn: import { getMaintenanceRequests } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Resident, Property, User, Organization]
+}
+
+// 3. Update Action
+action updateMaintenanceStatus {
+  fn: import { updateMaintenanceStatus } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Conversation, User]
+}
+
+// 4. Delete Action
+action deleteMaintenanceRequest {
+  fn: import { deleteMaintenanceRequest } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest]
+}
+
+// Add the route
+route NewMaintenanceRequestRoute { path: "/crm/maintenance/new", to: NewMaintenanceRequestPage }
+page NewMaintenanceRequestPage {
+  authRequired: true,
+  component: import NewMaintenanceRequestPage from "@src/crm/pages/NewMaintenanceRequestPage"
+}
+
+// Add the action
+action createMaintenanceRequest {
+  fn: import { createMaintenanceRequest } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Resident, Property, User, Organization]
+}
+
 
 //#endregion
 
