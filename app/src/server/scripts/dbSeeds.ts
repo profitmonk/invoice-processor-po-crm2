@@ -48,6 +48,7 @@ function generateMockUserData(): MockUserData {
     organizationId: null,          // ADDED
     role: 'USER',                  // ADDED
     isAdmin: false,
+    isSuperAdmin: false,
     hasCompletedOnboarding: true,  // ADDED
     invitedById: null,             // ADDED
     invitationToken: null,         // ADDED

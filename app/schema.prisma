@@ -21,69 +21,64 @@ model Organization {
   
   poApprovalThreshold Float @default(500)
   
+  // 🆕 VAPI CONFIGURATION (organization-level)
+  vapiAccountId       String?   // For reference
+  vapiWebhookSecret   String?   // For webhook validation
+  
+  // ⚠️ LEGACY TWILIO FIELDS (Keep for backward compatibility)
+  twilioPhoneNumber     String?   @unique
+  twilioPhoneNumberSid  String?
+  twilioMessagingServiceSid String?
+  twilioBrandSid        String?
+  twilioCampaignSid     String?   @unique
+  campaignStatus        String?   @default("NOT_REGISTERED")
+  campaignUseCase       String?   @default("CUSTOMER_CARE")
+  campaignDescription   String?   @db.Text
+  dailySMSLimit         Int?      @default(2000)
+  dailySMSUsed          Int       @default(0)
+  lastSMSResetDate      DateTime?
+  smsEnabled            Boolean   @default(false)
+  aiAgentEnabled        Boolean   @default(true)
+  voiceEnabled          Boolean   @default(false)
+  campaignRegisteredAt  DateTime?
+  campaignApprovedAt    DateTime?
+  campaignRejectedAt    DateTime?
+  campaignRejectionReason String? @db.Text
+  smsCreditsUsed        Int       @default(0)
+  smsCreditsLimit       Int?
+  monthlySmsCost        Float     @default(0)
+  communicationSetup    Boolean   @default(false)
+  
+  // Organization Settings
+  timezone            String?   @default("America/Los_Angeles")
+  businessEmail       String?
+  businessPhone       String?
+  
+  // Feature Flags
+  vapiEnabled         Boolean   @default(false)
+  aiEnabled           Boolean   @default(true)
+  
+  // Status
+  isActive            Boolean   @default(true)
+  setupCompleted      Boolean   @default(false)
+  setupCompletedAt    DateTime?
+  
   users         User[]
   properties    Property[]
   glAccounts    GLAccount[]
   expenseTypes  ExpenseType[]
   purchaseOrders PurchaseOrder[]
   
-
-  // ============================================
-  // CRM COMMUNICATION SETTINGS - ADD THESE
-  // ============================================
-  
-  // Twilio Phone Number & Campaign
-  twilioPhoneNumber     String?   @unique
-  twilioPhoneNumberSid  String?
-  twilioMessagingServiceSid String?
-  
-  // A2P 10DLC Campaign
-  twilioBrandSid        String?
-  twilioCampaignSid     String?   @unique
-  campaignStatus        String?   @default("NOT_REGISTERED")
-  campaignUseCase       String?   @default("CUSTOMER_CARE")
-  campaignDescription   String?   @db.Text
-  
-  // Campaign Limits
-  dailySMSLimit         Int?      @default(2000)
-  dailySMSUsed          Int       @default(0)
-  lastSMSResetDate      DateTime?
-  
-  // Feature Flags
-  smsEnabled            Boolean   @default(false)
-  aiAgentEnabled        Boolean   @default(true)
-  voiceEnabled          Boolean   @default(false)
-  
-  // Settings
-  businessHoursStart    String?   @default("09:00")
-  businessHoursEnd      String?   @default("17:00")
-  timezone              String?   @default("America/Chicago")
-  emergencyPhone        String?
-  emergencyEmail        String?
-  
-  // Onboarding
-  communicationSetup    Boolean   @default(false)
-  setupCompletedAt      DateTime?
-  
-  // Campaign Dates
-  campaignRegisteredAt  DateTime?
-  campaignApprovedAt    DateTime?
-  campaignRejectedAt    DateTime?
-  campaignRejectionReason String? @db.Text
-  
-  // Usage Tracking
-  smsCreditsUsed        Int       @default(0)
-  smsCreditsLimit       Int?
-  monthlySmsCost        Float     @default(0)
-  
-  // CRM Relations - ADD THESE
+  // CRM Relations
   residents             Resident[]
   leads                 Lead[]
   conversations         Conversation[]
   maintenanceRequests   MaintenanceRequest[]
-  assignedPhoneNumber   TwilioPhoneNumber?
+  vapiCalls             VapiCall[]
   
   @@index([code])
+  @@index([vapiEnabled])
+  @@index([isActive])
   @@index([twilioPhoneNumber])
   @@index([twilioCampaignSid])
   @@index([campaignStatus])
@@ -109,6 +104,7 @@ model User {
   // Role-based access
   role                      UserRole        @default(USER)
   isAdmin                   Boolean         @default(false)
+  isSuperAdmin              Boolean         @default(false)  // 🆕 NEW
   
   // Onboarding
   hasCompletedOnboarding    Boolean         @default(false)
@@ -136,12 +132,13 @@ model User {
   files                     File[]
   invoices                  Invoice[]
   
-  // New PO relationships
+  // PO relationships
   createdPurchaseOrders     PurchaseOrder[] @relation("POCreator")
   approvalSteps             ApprovalStep[]
   approvalActions           ApprovalAction[]
   notifications             Notification[]
-  // CRM Relations - ADD THESE
+  
+  // CRM Relations
   assignedLeads                Lead[]
   conversations                Conversation[]
   assignedMaintenanceRequests  MaintenanceRequest[]
@@ -149,6 +146,7 @@ model User {
   @@index([organizationId])
   @@index([role])
   @@index([invitationToken])
+  @@index([isSuperAdmin])
 }
 
 enum UserRole {
@@ -157,6 +155,7 @@ enum UserRole {
   ACCOUNTING
   CORPORATE
   ADMIN
+  SUPER_ADMIN  // 🆕 NEW
 }
 
 // ============================================
@@ -174,17 +173,59 @@ model Property {
   code            String
   name            String
   address         String?
+  city            String?
+  state           String?
+  zipCode         String?
   isActive        Boolean  @default(true)
+  
+  // 🆕 VAPI INTEGRATION
+  vapiPhoneNumber      String?   @unique
+  vapiPhoneNumberId    String?   // Vapi's phone number resource ID
+  vapiAssistantId      String?   @unique  // Vapi's AI assistant ID
+  vapiEnabled          Boolean   @default(false)
+  vapiSetupCompleted   Boolean   @default(false)
+  
+  // AI Assistant Configuration
+  aiPersonality        String?   @default("professional and helpful")
+  aiGreeting           String?   @default("Thank you for calling. How can I help you today?")
+  aiKnowledgeBase      Json?     // Property-specific info for AI
+  aiInstructions       String?   @db.Text  // Custom instructions for AI
+  
+  // Communication Settings
+  businessHoursStart   String?   @default("09:00")
+  businessHoursEnd     String?   @default("17:00")
+  timezone             String?   @default("America/Los_Angeles")
+  afterHoursMessage    String?   @db.Text
+  emergencyPhone       String?
+  
+  // Usage Tracking (reset monthly)
+  monthlyCallMinutes   Int       @default(0)
+  monthlySmsCount      Int       @default(0)
+  monthlyCallCount     Int       @default(0)
+  lastCallAt           DateTime?
+  lastResetAt          DateTime? @default(now())
+  
+  // Cost Tracking
+  estimatedMonthlyCost Float?    @default(0)
+  
+  // Metadata
+  vapiActivatedAt      DateTime?
+  vapiDeactivatedAt    DateTime?
   
   poLineItems     POLineItem[]
   
-  // CRM Relations - ADD THESE
+  // CRM Relations
   residents             Resident[]
   leads                 Lead[]
   maintenanceRequests   MaintenanceRequest[]
+  vapiCalls             VapiCall[]
+  
   @@unique([organizationId, code])
   @@index([organizationId])
   @@index([isActive])
+  @@index([vapiPhoneNumber])
+  @@index([vapiAssistantId])
+  @@index([vapiEnabled])
 }
 
 model GLAccount {
@@ -429,7 +470,7 @@ enum InvoiceEntryType {
 }
 
 // ============================================
-// EXISTING INVOICE MODELS (UPDATED)
+// INVOICE MODELS
 // ============================================
 
 model Invoice { 
@@ -461,8 +502,6 @@ model Invoice {
   totalAmount         Float?
   currency            String?         @default("USD")
 
-  // FIX: Add the foreign key and proper relation
-  //purchaseOrderId     String?
   linkedPurchaseOrder PurchaseOrder?
 
   errorMessage        String?         @db.Text
@@ -536,7 +575,7 @@ enum JobStatus {
 }
 
 // ============================================
-// EXISTING MODELS (UNCHANGED)
+// EXISTING MODELS
 // ============================================
 
 model GptResponse {
@@ -608,6 +647,7 @@ model ContactFormMessage {
   isRead                    Boolean         @default(false)
   repliedAt                 DateTime?
 }
+
 // ============================================
 // CRM ENUMS
 // ============================================
@@ -704,6 +744,7 @@ enum SenderType {
   MANAGER
   SYSTEM
 }
+
 // ============================================
 // CRM MODELS
 // ============================================
@@ -711,44 +752,36 @@ enum SenderType {
 model Resident {
   id                    String           @id @default(uuid())
   
-  // Personal Information
   firstName             String
   lastName              String
   email                 String
   phoneNumber           String
   
-  // Unit Information
   propertyId            String
   property              Property         @relation(fields: [propertyId], references: [id])
   unitNumber            String
   moveInDate            DateTime
   
-  // Financial
   monthlyRentAmount     Float
   rentDueDay            Int              @default(1)
   
-  // Lease
   leaseStartDate        DateTime
   leaseEndDate          DateTime
   leaseType             LeaseType        @default(ONE_YEAR)
   
-  // Emergency Contact
   emergencyContactName  String?
   emergencyContactPhone String?
   emergencyContactRelationship String?
   
-  // Status
   status                ResidentStatus   @default(ACTIVE)
   
-  // Organization
   organizationId        String
   organization          Organization     @relation(fields: [organizationId], references: [id])
   
-  // Relations
   maintenanceRequests   MaintenanceRequest[]
   conversations         Conversation[]
+  vapiCalls             VapiCall[]
   
-  // Timestamps
   createdAt             DateTime         @default(now())
   updatedAt             DateTime         @updatedAt
   
@@ -760,18 +793,15 @@ model Resident {
 model Lead {
   id                    String           @id @default(uuid())
   
-  // Personal Information
   firstName             String
   lastName              String
   email                 String?
   phoneNumber           String
   
-  // Lead Information
   leadSource            LeadSource       @default(OTHER)
   status                LeadStatus       @default(NEW)
   priority              LeadPriority     @default(WARM)
   
-  // Interested In
   interestedPropertyId  String?
   interestedProperty    Property?        @relation(fields: [interestedPropertyId], references: [id])
   desiredBedrooms       Int?
@@ -779,25 +809,23 @@ model Lead {
   budgetMax             Float?
   desiredMoveInDate     DateTime?
   
-  // Assignment
   assignedManagerId     String?
   assignedManager       User?            @relation(fields: [assignedManagerId], references: [id])
   
-  // Notes
   notes                 String?          @db.Text
   
-  // Organization
   organizationId        String
   organization          Organization     @relation(fields: [organizationId], references: [id])
   
-  // Relations
   conversations         Conversation[]
+  vapiCalls             VapiCall[]
   
-  // Conversion
   convertedToResidentId String?          @unique
   convertedAt           DateTime?
   
-  // Timestamps
+  createdViaVapi        Boolean          @default(false)  // 🆕 NEW
+  lastVapiCallAt        DateTime?        // 🆕 NEW
+  
   createdAt             DateTime         @default(now())
   updatedAt             DateTime         @updatedAt
   
@@ -810,42 +838,34 @@ model Lead {
 model Conversation {
   id                    String           @id @default(uuid())
   
-  // Link to Resident or Lead
   residentId            String?
   resident              Resident?        @relation(fields: [residentId], references: [id], onDelete: Cascade)
   
   leadId                String?
   lead                  Lead?            @relation(fields: [leadId], references: [id], onDelete: Cascade)
   
-  // Message Content
   messageContent        String           @db.Text
   messageType           MessageType      @default(SMS)
   
-  // Sender
   senderType            SenderType
   senderId              String?
   sender                User?            @relation(fields: [senderId], references: [id])
   
-  // AI Information
   aiGenerated           Boolean          @default(false)
   aiModel               String?
   aiPromptTokens        Int?
   aiResponseTokens      Int?
   
-  // Status
   status                MessageStatus    @default(SENT)
   
-  // Twilio Metadata
   twilioMessageSid      String?          @unique
   twilioCallSid         String?          @unique
   twilioStatus          String?
   errorMessage          String?
   
-  // Organization
   organizationId        String
   organization          Organization     @relation(fields: [organizationId], references: [id])
   
-  // Timestamps
   sentAt                DateTime         @default(now())
   deliveredAt           DateTime?
   readAt                DateTime?
@@ -860,41 +880,37 @@ model Conversation {
 model MaintenanceRequest {
   id                    String                  @id @default(uuid())
   
-  // Link to Resident
   residentId            String
   resident              Resident                @relation(fields: [residentId], references: [id])
   
-  // Property
   propertyId            String
   property              Property                @relation(fields: [propertyId], references: [id])
   unitNumber            String
   
-  // Request Details
   requestType           MaintenanceRequestType  @default(GENERAL)
   title                 String
   description           String                  @db.Text
   priority              MaintenancePriority     @default(MEDIUM)
   status                MaintenanceStatus       @default(SUBMITTED)
   
-  // Assignment
   assignedToPhone       String?
   assignedToName        String?
   assignedManagerId     String?
   assignedManager       User?                   @relation(fields: [assignedManagerId], references: [id])
   
-  // Resolution
   resolutionNotes       String?                 @db.Text
   residentSatisfaction  Int?
   residentFeedback      String?                 @db.Text
   
-  // Photos
   photoUrls             String[]                @default([])
   
-  // Organization
   organizationId        String
   organization          Organization            @relation(fields: [organizationId], references: [id])
   
-  // Timestamps
+  vapiCallId            String?       // 🆕 NEW
+  vapiCall              VapiCall?     // 🆕 NEW
+  createdViaVapi        Boolean       @default(false)  // 🆕 NEW
+  
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   completedAt           DateTime?
@@ -903,7 +919,91 @@ model MaintenanceRequest {
   @@index([propertyId])
   @@index([organizationId, status])
   @@index([priority])
+  @@index([vapiCallId])
 }
+
+// ============================================
+// 🆕 NEW: VAPI INTEGRATION MODELS
+// ============================================
+
+model VapiCall {
+  id                String         @id @default(uuid())
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  
+  // Vapi Call Info
+  vapiCallId        String         @unique
+  propertyId        String
+  property          Property       @relation(fields: [propertyId], references: [id])
+  
+  organizationId    String
+  organization      Organization   @relation(fields: [organizationId], references: [id])
+  
+  // Caller Info
+  callerPhone       String
+  callerName        String?
+  
+  // Linked to Resident or Lead
+  residentId        String?
+  resident          Resident?      @relation(fields: [residentId], references: [id])
+  leadId            String?
+  lead              Lead?          @relation(fields: [leadId], references: [id])
+  
+  // Call Details
+  callType          VapiCallType   @default(INBOUND)
+  callStatus        VapiCallStatus @default(IN_PROGRESS)
+  callDirection     String
+  
+  startedAt         DateTime?
+  endedAt           DateTime?
+  durationSeconds   Int?
+  
+  // AI Info
+  assistantId       String
+  transcript        String?        @db.Text
+  summary           String?        @db.Text
+  sentiment         String?
+  
+  // Actions Taken
+  actionsTaken      Json?
+  
+  // Metadata
+  recordingUrl      String?
+  cost              Float?
+  vapiMetadata      Json?
+  
+  // Relations
+  maintenanceRequest  MaintenanceRequest?  @relation(fields: [maintenanceRequestId], references: [id])
+  maintenanceRequestId String?             @unique
+  
+  @@index([propertyId])
+  @@index([organizationId])
+  @@index([callerPhone])
+  @@index([residentId])
+  @@index([leadId])
+  @@index([callStatus])
+  @@index([createdAt])
+}
+
+enum VapiCallType {
+  INBOUND
+  OUTBOUND
+}
+
+enum VapiCallStatus {
+  QUEUED
+  RINGING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  BUSY
+  NO_ANSWER
+  CANCELLED
+}
+
+// ============================================
+// LEGACY: TWILIO/PLATFORM CONFIG (DEPRECATED - Keep for backward compatibility)
+// ============================================
 
 model TwilioPhoneNumber {
   id                String       @id @default(uuid())
@@ -913,7 +1013,6 @@ model TwilioPhoneNumber {
   
   // Assignment
   organizationId    String?      @unique
-  organization      Organization? @relation(fields: [organizationId], references: [id])
   
   // Campaign Association
   messagingServiceSid String?

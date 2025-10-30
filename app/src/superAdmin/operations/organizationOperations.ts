@@ -224,7 +224,7 @@ export const createOrganizationSuperAdmin = async (
 
   // Generate password if not provided
   const password = adminPassword || generateRandomPassword();
-  const hashedPassword = await bcrypt.hash(password, 10);
+  //const hashedPassword = await bcrypt.hash(password, 10);
 
   // Create organization and admin user
   const organization = await context.entities.Organization.create({
@@ -375,6 +375,80 @@ function generateRandomPassword(): string {
   }
   return password;
 }
+
+type AddUserInput = {
+  organizationId: string;
+  email: string;
+  password?: string;
+  role: string;
+};
+
+export const addUserToOrganizationSuperAdmin = async (
+  args: AddUserInput,
+  context: any
+) => {
+  if (!context.user?.isSuperAdmin) {
+    throw new HttpError(403, 'Super admin access required');
+  }
+
+  const { organizationId, email, password, role } = args;
+
+  // Verify org exists
+  const org = await context.entities.Organization.findUnique({
+    where: { id: organizationId },
+  });
+
+  if (!org) {
+    throw new HttpError(404, 'Organization not found');
+  }
+
+  // Check if user exists
+  const existing = await context.entities.User.findUnique({
+    where: { email },
+  });
+
+  if (existing) {
+    throw new HttpError(400, 'User with this email already exists');
+  }
+
+  // Generate password if not provided
+  const userPassword = password || generateRandomPassword();
+
+  // Create user
+  const user = await context.entities.User.create({
+    data: {
+      email,
+      username: email.split('@')[0],
+      organizationId,
+      role: role as any,
+      isAdmin: role === 'ADMIN',
+      isSuperAdmin: false,
+      hasCompletedOnboarding: true,
+      credits: 100,
+    },
+  });
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(userPassword, 10);
+
+  // Create Auth identity
+  await context.entities.AuthIdentity.create({
+    data: {
+      providerName: 'email',
+      providerUserId: email,
+      authId: user.id,
+      providerData: JSON.stringify({
+        hashedPassword,
+        isEmailVerified: true,
+      }),
+    },
+  });
+
+  return {
+    user,
+    generatedPassword: password ? undefined : userPassword,
+  };
+};
 
 // ============================================
 // GET SYSTEM STATISTICS

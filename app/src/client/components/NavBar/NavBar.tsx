@@ -300,7 +300,7 @@ export default function NavBar() {
               <button 
                 onClick={() => {
                   setUserDropdownOpen(!userDropdownOpen);
-                  closeAllDropdowns();
+                  /*closeAllDropdowns();*/
                 }}
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
               >
