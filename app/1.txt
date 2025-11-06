@@ -713,6 +713,14 @@ page CampaignManagementPage {
   authRequired: true,
   component: import CampaignManagementPage from "@src/crm/pages/CampaignManagementPage"
 }
+// ==========================================
+// CRM DASHBOARD
+// ==========================================
+route CRMDashboardRoute { path: "/dashboard", to: CRMDashboardPage }
+page CRMDashboardPage {
+  authRequired: true,
+  component: import CRMDashboard from "@src/crm/pages/CRMDashboardPage"
+}
 
 // ============================================
 // RESIDENT OPERATIONS
@@ -781,64 +789,266 @@ action deleteLead {
 // CAMPAIGN OPERATIONS
 // ============================================
 
-action registerPlatformBrand {
-  fn: import { registerPlatformBrandOp } from "@src/crm/operations/campaignOperations",
-  entities: [User, PlatformConfig]
+//COMMENTED//action registerPlatformBrand {
+//COMMENTED//  fn: import { registerPlatformBrandOp } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, PlatformConfig]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//action setupOrganizationCommunication {
+//COMMENTED//  fn: import { setupOrganizationCommunication } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, Organization, TwilioPhoneNumber, PlatformConfig]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//action checkCampaignStatus {
+//COMMENTED//  fn: import { checkCampaignStatusOp } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, Organization]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//action checkAllPendingCampaigns {
+//COMMENTED//  fn: import { checkAllPendingCampaignsOp } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, Organization]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//query getCampaignLimits {
+//COMMENTED//  fn: import { getCampaignLimitsOp } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [Organization]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//action suspendOrganizationCampaign {
+//COMMENTED//  fn: import { suspendOrganizationCampaign } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, Organization]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//action reactivateOrganizationCampaign {
+//COMMENTED//  fn: import { reactivateOrganizationCampaign } from "@src/crm/operations/campaignOperations",
+//COMMENTED//  entities: [User, Organization]
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//// ============================================
+//COMMENTED//// TWILIO WEBHOOK API ROUTES
+//COMMENTED//// ============================================
+//COMMENTED//
+//COMMENTED//api twilioSmsWebhook {
+//COMMENTED//  fn: import { handleIncomingSMS } from "@src/crm/twilio/webhooks",
+//COMMENTED//  entities: [Conversation, Resident, Lead, Organization, Property, User, MaintenanceRequest],
+//COMMENTED//  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
+//COMMENTED//  httpRoute: (POST, "/api/twilio/sms")
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//api twilioVoiceWebhook {
+//COMMENTED//  fn: import { handleIncomingVoiceCall } from "@src/crm/twilio/webhooks",
+//COMMENTED//  entities: [Conversation, Resident, Lead, Organization, User],
+//COMMENTED//  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
+//COMMENTED//  httpRoute: (POST, "/api/twilio/voice")
+//COMMENTED//}
+//COMMENTED//
+//COMMENTED//api twilioStatusCallback {
+//COMMENTED//  fn: import { handleStatusCallback } from "@src/crm/twilio/webhooks",
+//COMMENTED//  entities: [Conversation],
+//COMMENTED//  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
+//COMMENTED//  httpRoute: (POST, "/api/twilio/status")
+//COMMENTED//}
+
+// ============================================
+// MAINTNANCE
+// ============================================
+// 1. Route
+route MaintenanceRequestsRoute { path: "/crm/maintenance", to: MaintenanceRequestsPage }
+page MaintenanceRequestsPage {
+  authRequired: true,
+  component: import MaintenancePage from "@src/crm/pages/MaintenancePage"
 }
 
-action setupOrganizationCommunication {
-  fn: import { setupOrganizationCommunication } from "@src/crm/operations/campaignOperations",
-  entities: [User, Organization, TwilioPhoneNumber, PlatformConfig]
+// 2. Query
+query getMaintenanceRequests {
+  fn: import { getMaintenanceRequests } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Resident, Property, User, Organization]
 }
 
-action checkCampaignStatus {
-  fn: import { checkCampaignStatusOp } from "@src/crm/operations/campaignOperations",
-  entities: [User, Organization]
+// 3. Update Action
+action updateMaintenanceStatus {
+  fn: import { updateMaintenanceStatus } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Conversation, User]
 }
 
-action checkAllPendingCampaigns {
-  fn: import { checkAllPendingCampaignsOp } from "@src/crm/operations/campaignOperations",
-  entities: [User, Organization]
+// 4. Delete Action
+action deleteMaintenanceRequest {
+  fn: import { deleteMaintenanceRequest } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest]
 }
 
-query getCampaignLimits {
-  fn: import { getCampaignLimitsOp } from "@src/crm/operations/campaignOperations",
+// Add the route
+route NewMaintenanceRequestRoute { path: "/crm/maintenance/new", to: NewMaintenanceRequestPage }
+page NewMaintenanceRequestPage {
+  authRequired: true,
+  component: import NewMaintenanceRequestPage from "@src/crm/pages/NewMaintenanceRequestPage"
+}
+
+// Add the action
+action createMaintenanceRequest {
+  fn: import { createMaintenanceRequest } from "@src/crm/operations/maintenanceOperations",
+  entities: [MaintenanceRequest, Resident, Property, User, Organization]
+}
+
+// ============================================
+// SUPER ADMIN ROUTES
+// ============================================
+
+route SuperAdminDashboardRoute { path: "/superadmin", to: SuperAdminDashboardPage }
+page SuperAdminDashboardPage {
+  authRequired: true,
+  component: import SuperAdminDashboard from "@src/superAdmin/pages/SuperAdminDashboard"
+}
+
+route CreateOrganizationRoute { path: "/superadmin/organizations/new", to: CreateOrganizationPage }
+page CreateOrganizationPage {
+  authRequired: true,
+  component: import CreateOrganizationPage from "@src/superAdmin/pages/CreateOrganizationPage"
+}
+
+route ManageOrganizationRoute { path: "/superadmin/organizations/:id", to: ManageOrganizationPage }
+page ManageOrganizationPage {
+  authRequired: true,
+  component: import ManageOrganizationPage from "@src/superAdmin/pages/ManageOrganizationPage"
+}
+
+// ============================================
+// SUPER ADMIN OPERATIONS
+// ============================================
+
+// Organization Management
+query getAllOrganizationsSuperAdmin {
+  fn: import { getAllOrganizationsSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization, Property, User, Resident]
+}
+
+query getOrganizationByIdSuperAdmin {
+  fn: import { getOrganizationByIdSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization, Property, User, VapiCall]
+}
+
+action createOrganizationSuperAdmin {
+  fn: import { createOrganizationSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization, User]
+}
+
+action updateOrganizationSuperAdmin {
+  fn: import { updateOrganizationSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
   entities: [Organization]
 }
 
-action suspendOrganizationCampaign {
-  fn: import { suspendOrganizationCampaign } from "@src/crm/operations/campaignOperations",
-  entities: [User, Organization]
+action deleteOrganizationSuperAdmin {
+  fn: import { deleteOrganizationSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization]
 }
 
-action reactivateOrganizationCampaign {
-  fn: import { reactivateOrganizationCampaign } from "@src/crm/operations/campaignOperations",
-  entities: [User, Organization]
+query getSystemStatisticsSuperAdmin {
+  fn: import { getSystemStatisticsSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization, Property, Resident, Lead, VapiCall]
+}
+
+// Property Management
+action createPropertySuperAdmin {
+  fn: import { createPropertySuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property, Organization]
+}
+
+action updatePropertySuperAdmin {
+  fn: import { updatePropertySuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property]
+}
+
+action deletePropertySuperAdmin {
+  fn: import { deletePropertySuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property]
+}
+
+query getPropertyDetailsSuperAdmin {
+  fn: import { getPropertyDetailsSuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property, Organization, Resident, Lead, MaintenanceRequest, VapiCall]
+}
+
+query getPropertiesByOrganizationSuperAdmin {
+  fn: import { getPropertiesByOrganizationSuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property, Resident, Lead, MaintenanceRequest]
+}
+
+action togglePropertyVapiSuperAdmin {
+  fn: import { togglePropertyVapiSuperAdmin } from "@src/superAdmin/operations/propertyOperations",
+  entities: [Property]
+}
+
+action addUserToOrganizationSuperAdmin {
+  fn: import { addUserToOrganizationSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
+  entities: [Organization, User]
+}
+// ============================================
+// VAPI WEBHOOK API ROUTES
+// ============================================
+
+api vapiAssistantRequest {
+  fn: import { handleAssistantRequest } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Resident, Lead, MaintenanceRequest, Organization, Conversation],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/assistant-request"),
+  auth: false
+}
+
+api vapiCallStarted {
+  fn: import { handleCallStarted } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Resident, Lead, Organization],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/call-started")
+}
+
+api vapiCallEnded {
+  fn: import { handleCallEnded } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Lead, Organization],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/call-ended")
+}
+
+api vapiStatusUpdate {
+  fn: import { handleStatusUpdate } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/status-update")
+}
+
+route SetupVapiRoute { path: "/superadmin/properties/:propertyId/setup-vapi", to: SetupVapiPage }
+page SetupVapiPage {
+  authRequired: true,
+  component: import SetupVapiPage from "@src/superAdmin/pages/SetupVapiPage"
+}
+
+route ManualVapiSetupRoute { path: "/superadmin/properties/:propertyId/manual-vapi-setup", to: ManualVapiSetupPage }
+page ManualVapiSetupPage {
+  authRequired: true,
+  component: import ManualVapiSetupPage from "@src/superAdmin/pages/ManualVapiSetupPage"
 }
 
 // ============================================
-// TWILIO WEBHOOK API ROUTES
+// VAPI SETUP OPERATIONS
 // ============================================
 
-api twilioSmsWebhook {
-  fn: import { handleIncomingSMS } from "@src/crm/twilio/webhooks",
-  entities: [Conversation, Resident, Lead, Organization, Property, User, MaintenanceRequest],
-  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
-  httpRoute: (POST, "/api/twilio/sms")
+action setupPropertyVapi {
+  fn: import { setupPropertyVapi } from "@src/vapi/operations/vapiSetup",
+  entities: [Property, Organization]
 }
 
-api twilioVoiceWebhook {
-  fn: import { handleIncomingVoiceCall } from "@src/crm/twilio/webhooks",
-  entities: [Conversation, Resident, Lead, Organization, User],
-  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
-  httpRoute: (POST, "/api/twilio/voice")
+action purchaseVapiPhoneNumber {
+  fn: import { purchaseVapiPhoneNumber } from "@src/vapi/operations/vapiSetup",
+  entities: [Property]
 }
 
-api twilioStatusCallback {
-  fn: import { handleStatusCallback } from "@src/crm/twilio/webhooks",
-  entities: [Conversation],
-  middlewareConfigFn: import { twilioMiddlewareConfigFn } from "@src/crm/twilio/webhooks",
-  httpRoute: (POST, "/api/twilio/status")
+action createVapiAssistant {
+  fn: import { createVapiAssistant } from "@src/vapi/operations/vapiSetup",
+  entities: [Property]
+}
+
+query getVapiCallLogs {
+  fn: import { getVapiCallLogs } from "@src/vapi/operations/vapiSetup",
+  entities: [VapiCall, Property, Resident, Lead]
 }
 
 //#endregion

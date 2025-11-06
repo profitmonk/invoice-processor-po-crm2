@@ -381,9 +381,36 @@ export default function ManageOrganizationPage() {
                         open requests
                       </p>
                     </div>
-                    {prop.vapiEnabled && (
-                      <Phone className="h-4 w-4 text-green-600" />
-                    )}
+                    <div className="flex items-center gap-2">
+                      {prop.vapiEnabled ? (
+                        <span className="flex items-center gap-1 text-green-600 text-sm">
+                          <Phone className="h-4 w-4" />
+                          Active
+                        </span>
+                      ) : (
+                        <Link to={`/superadmin/properties/${prop.id}/setup-vapi`}>
+                          <Button size="sm" variant="outline">
+                            <Phone className="h-4 w-4 mr-2" />
+                            Setup Vapi
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {prop.vapiEnabled ? (
+                        <span className="flex items-center gap-1 text-green-600 text-sm">
+                          <Phone className="h-4 w-4" />
+                          Active
+                        </span>
+                      ) : (
+                        <Link to={`/superadmin/properties/${prop.id}/manual-vapi-setup`}>
+                          <Button size="sm" variant="outline">
+                            <Phone className="h-4 w-4 mr-2" />
+                            Manual Setup
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

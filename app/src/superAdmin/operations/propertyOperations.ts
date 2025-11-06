@@ -181,6 +181,8 @@ type UpdatePropertyInput = {
   vapiPhoneNumberId?: string;
   vapiAssistantId?: string;
   vapiEnabled?: boolean;
+  vapiSetupCompleted?: boolean;
+  vapiActivatedAt?: Date;
   
   // AI Configuration
   aiPersonality?: string;

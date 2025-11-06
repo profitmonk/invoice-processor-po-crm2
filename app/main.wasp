@@ -982,6 +982,74 @@ action addUserToOrganizationSuperAdmin {
   fn: import { addUserToOrganizationSuperAdmin } from "@src/superAdmin/operations/organizationOperations",
   entities: [Organization, User]
 }
+// ============================================
+// VAPI WEBHOOK API ROUTES
+// ============================================
+
+api vapiAssistantRequest {
+  fn: import { handleAssistantRequest } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Resident, Lead, MaintenanceRequest, Organization, Conversation],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/assistant-request"),
+  auth: false
+}
+
+api vapiCallStarted {
+  fn: import { handleCallStarted } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Resident, Lead, Organization],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/call-started")
+}
+
+api vapiCallEnded {
+  fn: import { handleCallEnded } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall, Property, Lead, Organization],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/call-ended")
+}
+
+api vapiStatusUpdate {
+  fn: import { handleStatusUpdate } from "@src/vapi/webhooks/vapiWebhooks",
+  entities: [VapiCall],
+  middlewareConfigFn: import { vapiMiddlewareConfigFn } from "@src/vapi/webhooks/vapiWebhooks",
+  httpRoute: (POST, "/api/vapi/status-update")
+}
+
+route SetupVapiRoute { path: "/superadmin/properties/:propertyId/setup-vapi", to: SetupVapiPage }
+page SetupVapiPage {
+  authRequired: true,
+  component: import SetupVapiPage from "@src/superAdmin/pages/SetupVapiPage"
+}
+
+route ManualVapiSetupRoute { path: "/superadmin/properties/:propertyId/manual-vapi-setup", to: ManualVapiSetupPage }
+page ManualVapiSetupPage {
+  authRequired: true,
+  component: import ManualVapiSetupPage from "@src/superAdmin/pages/ManualVapiSetupPage"
+}
+
+// ============================================
+// VAPI SETUP OPERATIONS
+// ============================================
+
+action setupPropertyVapi {
+  fn: import { setupPropertyVapi } from "@src/vapi/operations/vapiSetup",
+  entities: [Property, Organization]
+}
+
+action purchaseVapiPhoneNumber {
+  fn: import { purchaseVapiPhoneNumber } from "@src/vapi/operations/vapiSetup",
+  entities: [Property]
+}
+
+action createVapiAssistant {
+  fn: import { createVapiAssistant } from "@src/vapi/operations/vapiSetup",
+  entities: [Property]
+}
+
+query getVapiCallLogs {
+  fn: import { getVapiCallLogs } from "@src/vapi/operations/vapiSetup",
+  entities: [VapiCall, Property, Resident, Lead]
+}
 
 //#endregion
 

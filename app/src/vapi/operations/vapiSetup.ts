@@ -10,8 +10,8 @@ import type { Property } from 'wasp/entities';
 
 type SetupPropertyVapiInput = {
   propertyId: string;
-  areaCode?: string; // Optional, e.g. "972" for Dallas
-  voiceProvider?: 'elevenlabs' | 'playht' | 'deepgram';
+  areaCode?: string;
+  voiceProvider?: '11labs' | 'playht' | 'deepgram';
   voiceId?: string;
 };
 
@@ -23,7 +23,7 @@ export const setupPropertyVapi = async (
     throw new HttpError(403, 'Super admin access required');
   }
 
-  const { propertyId, areaCode, voiceProvider = 'elevenlabs', voiceId } = args;
+  const { propertyId, areaCode, voiceProvider = '11labs', voiceId } = args;
 
   try {
     // 1. Get property
@@ -52,8 +52,6 @@ export const setupPropertyVapi = async (
     // 3. Create AI assistant
     console.log('[Vapi Setup] Step 2: Creating AI assistant...');
     
-    //const systemPrompt = vapiClient.buildAssistantSystemPrompt(property);
-    //const functions = vapiClient.buildAssistantFunctions();
     const systemPrompt = buildAssistantSystemPrompt(property);
     const functions = buildAssistantFunctions();
 
@@ -63,18 +61,18 @@ export const setupPropertyVapi = async (
         provider: 'openai',
         model: 'gpt-4',
         temperature: 0.7,
-        maxTokens: 1000,
         systemPrompt,
       },
       voice: {
         provider: voiceProvider,
-        voiceId: voiceId || (voiceProvider === 'elevenlabs' ? '21m00Tcm4TlvDq8ikWAM' : undefined), // Rachel voice
+        voiceId: voiceId || (voiceProvider === '11labs' ? '21m00Tcm4TlvDq8ikWAM' : 'default-voice'),
       },
       functions,
       firstMessage: property.aiGreeting || `Hello! Thank you for calling ${property.name}. How can I help you today?`,
-      endCallMessage: `Thank you for calling ${property.name}. Have a great day!`,
+      serverUrl: `${process.env.WASP_WEB_CLIENT_URL}/api/vapi/webhook`,
+      serverUrlSecret: process.env.VAPI_WEBHOOK_SECRET!,
       recordingEnabled: true,
-      transcriptEnabled: true,
+      transcriptPlan: { enabled: true, provider: 'deepgram' as const },
     });
 
     console.log('[Vapi Setup] Assistant created:', assistantResponse.id);
@@ -151,7 +149,7 @@ export const purchaseVapiPhoneNumber = async (
 // ============================================
 
 export const createVapiAssistant = async (
-  args: { propertyId: string; voiceProvider?: string; voiceId?: string },
+  args: { propertyId: string; voiceProvider?: '11labs' | 'playht' | 'deepgram'; voiceId?: string },
   context: any
 ) => {
   if (!context.user?.isSuperAdmin) {
@@ -167,8 +165,6 @@ export const createVapiAssistant = async (
     throw new HttpError(404, 'Property not found');
   }
 
-  //const systemPrompt = vapiClient.buildAssistantSystemPrompt(property);
-  //const functions = vapiClient.buildAssistantFunctions();
   const systemPrompt = buildAssistantSystemPrompt(property);
   const functions = buildAssistantFunctions();
 
@@ -178,18 +174,18 @@ export const createVapiAssistant = async (
       provider: 'openai',
       model: 'gpt-4',
       temperature: 0.7,
-      maxTokens: 1000,
       systemPrompt,
     },
     voice: {
-      provider: args.voiceProvider || 'elevenlabs',
+      provider: args.voiceProvider || '11labs',
       voiceId: args.voiceId || '21m00Tcm4TlvDq8ikWAM',
     },
     functions,
     firstMessage: property.aiGreeting || `Hello! Thank you for calling ${property.name}. How can I help you today?`,
-    endCallMessage: `Thank you for calling ${property.name}. Have a great day!`,
+    serverUrl: `${process.env.WASP_WEB_CLIENT_URL}/api/vapi/webhook`,
+    serverUrlSecret: process.env.VAPI_WEBHOOK_SECRET!,
     recordingEnabled: true,
-    transcriptEnabled: true,
+    transcriptPlan: { enabled: true, provider: 'deepgram' as const },
   });
 
   await context.entities.Property.update({
@@ -201,4 +197,78 @@ export const createVapiAssistant = async (
   });
 
   return assistantResponse;
+};
+
+// ============================================
+// GET CALL LOGS
+// ============================================
+
+type GetCallLogsInput = {
+  propertyId?: string;
+  organizationId?: string;
+  limit?: number;
+  status?: string;
+};
+
+export const getVapiCallLogs = async (
+  args: GetCallLogsInput,
+  context: any
+) => {
+  if (!context.user) {
+    throw new HttpError(401, 'Authentication required');
+  }
+
+  const where: any = {};
+
+  if (args.propertyId) {
+    where.propertyId = args.propertyId;
+  } else if (context.user.organizationId && !context.user.isSuperAdmin) {
+    where.organizationId = context.user.organizationId;
+  } else if (args.organizationId && context.user.isSuperAdmin) {
+    where.organizationId = args.organizationId;
+  }
+
+  if (args.status) {
+    where.callStatus = args.status;
+  }
+
+  const calls = await context.entities.VapiCall.findMany({
+    where,
+    include: {
+      property: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      resident: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          unitNumber: true,
+        },
+      },
+      lead: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
+      maintenanceRequest: {
+        select: {
+          id: true,
+          title: true,
+          status: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: args.limit || 50,
+  });
+
+  return calls;
 };

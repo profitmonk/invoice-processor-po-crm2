@@ -26,7 +26,7 @@ class VapiClient {
   // ============================================
 
   /**
-   * Get available phone numbers
+   * Get available phone numbers - FIXED ENDPOINT
    */
   async getAvailablePhoneNumbers(areaCode?: string): Promise<any[]> {
     try {
@@ -34,13 +34,16 @@ class VapiClient {
       if (areaCode) {
         params.append('areaCode', areaCode);
       }
+      // Add other required parameters
+      params.append('limit', '10');
+      params.append('provider', 'twilio');
 
       const response = await this.makeRequest(
         'GET',
         `/phone-number/available?${params.toString()}`
       );
 
-      return response.phoneNumbers || [];
+      return response || []; // Response might be the array directly
     } catch (error) {
       console.error('Failed to get available phone numbers:', error);
       throw new HttpError(500, 'Failed to fetch available phone numbers');
@@ -48,13 +51,15 @@ class VapiClient {
   }
 
   /**
-   * Purchase a phone number
+   * Purchase a phone number - FIXED PAYLOAD
    */
   async purchasePhoneNumber(phoneNumber: string): Promise<any> {
     try {
       const response = await this.makeRequest('POST', '/phone-number', {
-        phoneNumber,
-        provider: 'twilio', // or 'vonage'
+        number: phoneNumber, // Changed from 'phoneNumber' to 'number'
+        provider: 'twilio',
+        // Add other required fields if needed
+        assistantId: null, // Can be set later
       });
 
       return response;
