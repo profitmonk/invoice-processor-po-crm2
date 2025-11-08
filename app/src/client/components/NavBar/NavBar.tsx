@@ -22,6 +22,7 @@ import {
   DollarSign,
   ChevronDown,
 } from 'lucide-react';
+import { Shield } from 'lucide-react'; // Add to imports
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function NavBar() {
   }
 
   const isAdmin = user.isAdmin || user.role === 'ADMIN';
+  const isSuperAdmin = user.isSuperAdmin || user.role === 'SUPER_ADMIN';
 
   const crmItems = [
     { name: 'Residents', path: '/crm/residents', icon: Users },
@@ -60,6 +62,12 @@ export default function NavBar() {
   const adminItems = [
     { name: 'Users', path: '/admin/users', icon: Users },
     { name: 'Configuration', path: '/admin/configuration', icon: Settings },
+  ];
+
+  const superAdminItems = [
+    { name: 'Organizations', path: '/superadmin', icon: Building2 },
+    { name: 'VAPI Calls', path: '/superadmin/vapi-calls', icon: MessageSquare },
+    { name: 'System Stats', path: '/superadmin', icon: LayoutDashboard },
   ];
 
   const isActive = (path: string) => {
@@ -279,7 +287,66 @@ export default function NavBar() {
                 )}
               </div>
             )}
+            {/* Super Admin Dropdown */}
+            {isSuperAdmin && (
+              <div className="relative">
+                <button 
+                  onClick={() => {
+                    setAdminDropdownOpen(!adminDropdownOpen);
+                    setCrmDropdownOpen(false);
+                    setFinanceDropdownOpen(false);
+                    setUserDropdownOpen(false);
+                  }}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                    ${location.pathname.startsWith('/superadmin')
+                      ? 'bg-purple-600 text-white' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  <Shield className="h-4 w-4" />
+                  Super Admin
+                  <ChevronDown className="h-3 w-3" />
+                </button>
+                {adminDropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setAdminDropdownOpen(false)}
+                    ></div>
+                    <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-20">
+                      {superAdminItems.map(item => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.path}
+                            onClick={() => {
+                              navigate(item.path);
+                              setAdminDropdownOpen(false);
+                            }}
+                            className={`
+                              w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors
+                              ${isActive(item.path)
+                                ? 'bg-purple-50 text-purple-600 font-medium'
+                                : 'text-gray-700 hover:bg-gray-100'
+                              }
+                            `}
+                          >
+                            <Icon className="h-4 w-4" />
+                            {item.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
           </div>
+
+
 
           {/* User Menu */}
           <div className="flex items-center gap-2">
@@ -457,6 +524,39 @@ export default function NavBar() {
                         w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium pl-8
                         ${isActive(item.path)
                           ? 'bg-blue-600 text-white' 
+                          : 'text-gray-700 hover:bg-gray-100'
+                        }
+                      `}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.name}
+                    </button>
+                  );
+                })}
+              </>
+            )}
+
+            {/* Super Admin Section */}
+            {isSuperAdmin && (
+              <>
+                <div className="border-t my-2"></div>
+                <div className="px-3 py-2 text-xs font-semibold text-purple-600 uppercase flex items-center gap-2">
+                  <Shield className="h-4 w-4" />
+                  Super Admin
+                </div>
+                {superAdminItems.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.path}
+                      onClick={() => {
+                        navigate(item.path);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`
+                        w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium pl-8
+                        ${isActive(item.path)
+                          ? 'bg-purple-600 text-white' 
                           : 'text-gray-700 hover:bg-gray-100'
                         }
                       `}

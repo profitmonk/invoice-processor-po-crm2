@@ -1027,6 +1027,17 @@ page ManualVapiSetupPage {
   component: import ManualVapiSetupPage from "@src/superAdmin/pages/ManualVapiSetupPage"
 }
 
+route VapiCallsRoute { path: "/superadmin/vapi-calls", to: VapiCallsPage }
+page VapiCallsPage {
+  authRequired: true,
+  component: import VapiCallsPage from "@src/superAdmin/pages/VapiCallsPage"
+}
+
+query getRecentVapiCalls {
+  fn: import { getRecentVapiCalls } from "@src/superAdmin/operations/vapiCallOperations",
+  entities: [VapiCall, Property, MaintenanceRequest, Resident, Lead]
+}
+
 // ============================================
 // VAPI SETUP OPERATIONS
 // ============================================
@@ -1051,5 +1062,29 @@ query getVapiCallLogs {
   entities: [VapiCall, Property, Resident, Lead]
 }
 
+// ==================
+// Import pages
+route ImportPropertiesRoute { path: "/superadmin/organizations/:organizationId/import-properties", to: ImportPropertiesPage }
+page ImportPropertiesPage {
+  authRequired: true,
+  component: import ImportPropertiesPage from "@src/superAdmin/pages/ImportPropertiesPage"
+}
+
+route ImportResidentsRoute { path: "/superadmin/properties/:propertyId/import-residents", to: ImportResidentsPage }
+page ImportResidentsPage {
+  authRequired: true,
+  component: import ImportResidentsPage from "@src/superAdmin/pages/ImportResidentsPage"
+}
+
+// Import actions
+action importPropertiesCSV {
+  fn: import { importPropertiesCSV } from "@src/superAdmin/operations/importOperations",
+  entities: [Property]
+}
+
+action importResidentsCSV {
+  fn: import { importResidentsCSV } from "@src/superAdmin/operations/importOperations",
+  entities: [Resident, Property]
+}
 //#endregion
 

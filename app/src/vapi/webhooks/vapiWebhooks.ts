@@ -5,6 +5,8 @@ import type { MiddlewareConfigFn } from 'wasp/server';
 import { HttpError } from 'wasp/server';
 import crypto from 'crypto';
 import express from 'express';
+import { sendSMS } from '../../twilio/sms';
+import { Sentry } from '../../server/sentry';
 //import cors from 'cors';
 
 // ============================================
@@ -116,6 +118,7 @@ export const handleAssistantRequest = async (req: any, res: any, context: any) =
     // If not a function call, acknowledge receipt
     return res.json({ success: true });
   } catch (error: any) {
+    Sentry.captureException(error);
     console.error('[Vapi] Assistant Request Error:', error);
     return res.status(error.statusCode || 500).json({
       error: error.message || 'Internal server error',
@@ -418,6 +421,24 @@ async function handleCreateMaintenanceRequest(args: any, call: any, context: any
     });
 
     console.log('[Function] Maintenance request created successfully:', request.id);
+    // After creating maintenance request (around line 400):
+    const refNumber = request.id.substring(0, 8).toUpperCase();
+    await sendSMS(
+      call.customer.number,
+      `🔧 Request #${refNumber}\n${args.issue}\nPriority: ${priority}\n\nWe'll contact you within ${getResponseTime(priority)}.`
+    );
+    
+    // Notify manager if emergency phone set
+    if (property.emergencyPhone && priority === 'EMERGENCY') {
+      await sendSMS(
+        property.emergencyPhone,
+        `🚨 EMERGENCY: ${args.issue}\nProperty: ${property.name}\nUnit: ${args.unitNumber}\nRef: ${refNumber}`
+      );
+    }
+    
+    function getResponseTime(priority: string): string {
+      return { EMERGENCY: '1 hour', HIGH: '24 hours', MEDIUM: '3 days', LOW: '5 days' }[priority] || '5 days';
+    }
 
     // Update VapiCall record
     await context.entities.VapiCall.updateMany({
@@ -435,7 +456,6 @@ async function handleCreateMaintenanceRequest(args: any, call: any, context: any
       },
     });
 
-    const refNumber = request.id.substring(0, 8).toUpperCase();
 
     return {
       success: true,

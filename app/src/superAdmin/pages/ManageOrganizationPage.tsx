@@ -26,6 +26,7 @@ import {
   Plus,
   Mail,
   UserPlus,
+  Upload,
 } from 'lucide-react';
 import {
   Dialog,
@@ -289,6 +290,10 @@ export default function ManageOrganizationPage() {
             <CardTitle className="flex items-center gap-2">
               <Home className="h-5 w-5" />
               Properties ({organization.properties.length})
+              <Button size="sm" variant="outline" onClick={() => navigate(`/superadmin/organizations/${id}/import-properties`)}>
+                <Upload className="h-4 w-4 mr-2" />
+                Import CSV
+              </Button>
             </CardTitle>
             <Dialog open={showAddProperty} onOpenChange={setShowAddProperty}>
               <DialogTrigger asChild>
