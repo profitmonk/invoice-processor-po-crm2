@@ -1,0 +1,41 @@
+{
+  "mode": "update",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET"
+  },
+  "maintenanceRequests": [
+    {
+      "title": "AC Not Working",
+      "description": "Air conditioning unit in unit 101 is not cooling properly",
+      "residentPhone": "+1-213-555-1001",
+      "priority": "HIGH",
+      "requestType": "HVAC",
+      "status": "SUBMITTED"
+    },
+    {
+      "title": "Leaky Faucet",
+      "description": "Kitchen faucet is dripping continuously",
+      "residentPhone": "+1-213-555-1002",
+      "priority": "MEDIUM",
+      "requestType": "PLUMBING",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "title": "Broken Window",
+      "description": "Bedroom window won't close properly",
+      "residentPhone": "+1-213-555-1003",
+      "priority": "MEDIUM",
+      "requestType": "GENERAL",
+      "status": "SUBMITTED"
+    },
+    {
+      "title": "Water Heater Issue",
+      "description": "Not getting hot water",
+      "residentPhone": "+1-213-555-1004",
+      "priority": "HIGH",
+      "requestType": "PLUMBING",
+      "status": "SUBMITTED"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "mode": "update",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET"
+  },
+  "properties": [
+    {
+      "name": "Sunset Villa - New Property",
+      "address": "400 New Street",
+      "city": "Los Angeles",
+      "state": "CA"
+    }
+  ],
+  "users": [
+    {
+      "email": "newstaff@sunsetapts.com",
+      "password": "NewStaff123!",
+      "role": "USER"
+    }
+  ]
+}

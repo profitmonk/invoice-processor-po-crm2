@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for invoice-processor-server-purple-voice-4245 on 2025-10-07T06:14:38+02:00
+# fly.toml app configuration file generated for my-invoice-po-crm-app-server on 2025-11-10T11:41:19+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'invoice-processor-server-purple-voice-4245'
+app = 'my-invoice-po-crm-app-server'
 primary_region = 'dfw'
 
 [build]

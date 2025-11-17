@@ -1,19 +1,19 @@
-# fly.toml app configuration file generated for my-invoice-po-crm-app-client on 2025-11-10T11:41:26+01:00
+# fly.toml app configuration file generated for my-invoice-po-crm-app-server on 2025-11-09T03:09:03+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'my-invoice-po-crm-app-client'
+app = 'my-invoice-po-crm-app-server'
 primary_region = 'dfw'
 
 [build]
 
 [http_service]
-  internal_port = 8043
+  internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
 [[vm]]

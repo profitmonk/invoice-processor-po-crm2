@@ -1,0 +1,29 @@
+{
+  "mode": "create",
+  "organization": {
+    "name": "Sunset Apartments - Miami",
+    "code": "SUNSET_MIA",
+    "businessEmail": "info@sunset-miami.com",
+    "businessPhone": "+1-305-555-0100",
+    "timezone": "America/New_York"
+  },
+  "properties": [
+    {
+      "code": "MIA01",
+      "name": "Sunset Beach Tower",
+      "address": "100 Ocean Drive",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33139"
+    }
+  ],
+  "users": [
+    {
+      "email": "admin@sunset-miami.com",
+      "username": "miami-admin",
+      "password": "MiamiAdmin123!",
+      "isAdmin": true,
+      "role": "ADMIN"
+    }
+  ]
+}

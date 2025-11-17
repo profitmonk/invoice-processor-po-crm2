@@ -1,0 +1,25 @@
+{
+  "mode": "update",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET"
+  },
+  "users": [
+    {
+      "email": "accounting@sunsetapts.com",
+      "username": "accounting",
+      "password": "AcctPass123!",
+      "isAdmin": false,
+      "role": "USER",
+      "emailVerified": true
+    },
+    {
+      "email": "reception@sunsetapts.com",
+      "username": "reception",
+      "password": "RecepPass123!",
+      "isAdmin": false,
+      "role": "USER",
+      "emailVerified": true
+    }
+  ]
+}

@@ -102,9 +102,23 @@ route LandingPageRoute { path: "/", to: LandingPage }
 page LandingPage {
   component: import LandingPage from "@src/landing/LandingPage"
 }
+
 //page LandingPage {
 //  component: import LandingPage from "@src/landing-page/LandingPage"
 //}
+
+// 1. Action (server-side)
+action healthAction {
+  fn: import { health } from "@src/server/health"
+}
+
+// 2. Page (client-side) that calls the action
+page HealthPage {
+  component: import Health from "@src/client/HealthPage"
+}
+
+// 3. Route to the page
+route HealthRoute { path: "/health", to: HealthPage }
 
 //#region Auth Pages
 route LoginRoute { path: "/login", to: LoginPage }

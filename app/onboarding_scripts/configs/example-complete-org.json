@@ -1,0 +1,181 @@
+{
+  "mode": "create",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET",
+    "businessEmail": "info@sunsetapts.com",
+    "businessPhone": "+1-555-0100",
+    "timezone": "America/Los_Angeles"
+  },
+  "properties": [
+    {
+      "code": "SUNSET01",
+      "name": "Sunset Towers - Building A",
+      "address": "123 Sunset Boulevard",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90001"
+    },
+    {
+      "code": "SUNSET02",
+      "name": "Sunset Towers - Building B",
+      "address": "125 Sunset Boulevard",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90001"
+    },
+    {
+      "code": "SUNSET03",
+      "name": "Sunset Gardens",
+      "address": "200 Garden View Drive",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90002"
+    }
+  ],
+  "users": [
+    {
+      "email": "admin@sunsetapts.com",
+      "username": "admin",
+      "password": "AdminPass123!",
+      "isAdmin": true,
+      "role": "ADMIN",
+      "emailVerified": true
+    },
+    {
+      "email": "pm@sunsetapts.com",
+      "username": "property-manager",
+      "password": "PMPass123!",
+      "isAdmin": false,
+      "role": "USER",
+      "emailVerified": true
+    },
+    {
+      "email": "maintenance@sunsetapts.com",
+      "username": "maintenance",
+      "password": "MaintPass123!",
+      "isAdmin": false,
+      "role": "USER",
+      "emailVerified": true
+    },
+    {
+      "email": "leasing@sunsetapts.com",
+      "username": "leasing",
+      "password": "LeasePass123!",
+      "isAdmin": false,
+      "role": "USER",
+      "emailVerified": true
+    }
+  ],
+  "residents": [
+    {
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "john.smith@email.com",
+      "phoneNumber": "+1-213-555-1001",
+      "propertyCode": "SUNSET01",
+      "unitNumber": "101",
+      "monthlyRentAmount": 2500,
+      "rentDueDay": 1,
+      "moveInDate": "2024-01-15",
+      "leaseStartDate": "2024-01-15",
+      "leaseEndDate": "2025-01-14",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    },
+    {
+      "firstName": "Sarah",
+      "lastName": "Johnson",
+      "email": "sarah.j@email.com",
+      "phoneNumber": "+1-213-555-1002",
+      "propertyCode": "SUNSET01",
+      "unitNumber": "102",
+      "monthlyRentAmount": 2600,
+      "rentDueDay": 1,
+      "moveInDate": "2024-02-01",
+      "leaseStartDate": "2024-02-01",
+      "leaseEndDate": "2025-01-31",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    },
+    {
+      "firstName": "Michael",
+      "lastName": "Williams",
+      "email": "m.williams@email.com",
+      "phoneNumber": "+1-213-555-1003",
+      "propertyCode": "SUNSET01",
+      "unitNumber": "201",
+      "monthlyRentAmount": 2700,
+      "rentDueDay": 1,
+      "moveInDate": "2024-03-01",
+      "leaseStartDate": "2024-03-01",
+      "leaseEndDate": "2025-02-28",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    },
+    {
+      "firstName": "Emily",
+      "lastName": "Brown",
+      "email": "emily.brown@email.com",
+      "phoneNumber": "+1-213-555-1004",
+      "propertyCode": "SUNSET02",
+      "unitNumber": "101",
+      "monthlyRentAmount": 2800,
+      "rentDueDay": 1,
+      "moveInDate": "2024-01-01",
+      "leaseStartDate": "2024-01-01",
+      "leaseEndDate": "2024-12-31",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    },
+    {
+      "firstName": "David",
+      "lastName": "Martinez",
+      "email": "d.martinez@email.com",
+      "phoneNumber": "+1-213-555-1005",
+      "propertyCode": "SUNSET02",
+      "unitNumber": "102",
+      "monthlyRentAmount": 2850,
+      "rentDueDay": 1,
+      "moveInDate": "2024-04-01",
+      "leaseStartDate": "2024-04-01",
+      "leaseEndDate": "2025-03-31",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    }
+  ],
+  "maintenanceRequests": [
+    {
+      "title": "AC Not Working",
+      "description": "Air conditioning unit in unit 101 is not cooling properly",
+      "residentPhone": "+1-213-555-1001",
+      "priority": "HIGH",
+      "requestType": "HVAC",
+      "status": "SUBMITTED"
+    },
+    {
+      "title": "Leaky Faucet",
+      "description": "Kitchen faucet is dripping continuously",
+      "residentPhone": "+1-213-555-1002",
+      "priority": "MEDIUM",
+      "requestType": "PLUMBING",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "title": "Broken Window",
+      "description": "Bedroom window won't close properly",
+      "residentPhone": "+1-213-555-1003",
+      "priority": "MEDIUM",
+      "requestType": "GENERAL",
+      "status": "SUBMITTED"
+    },
+    {
+      "title": "Water Heater Issue",
+      "description": "Not getting hot water",
+      "residentPhone": "+1-213-555-1004",
+      "priority": "HIGH",
+      "requestType": "PLUMBING",
+      "status": "SUBMITTED"
+    }
+  ]
+}

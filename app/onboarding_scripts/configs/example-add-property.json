@@ -1,0 +1,17 @@
+{
+  "mode": "update",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET"
+  },
+  "properties": [
+    {
+      "code": "SUNSET04",
+      "name": "Sunset Villa",
+      "address": "300 Villa Lane",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90003"
+    }
+  ]
+}

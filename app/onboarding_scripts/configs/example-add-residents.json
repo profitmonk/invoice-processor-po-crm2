@@ -1,0 +1,39 @@
+{
+  "mode": "update",
+  "organization": {
+    "name": "Sunset Apartments LLC",
+    "code": "SUNSET"
+  },
+  "residents": [
+    {
+      "firstName": "Lisa",
+      "lastName": "Garcia",
+      "email": "lisa.garcia@email.com",
+      "phoneNumber": "+1-213-555-1010",
+      "propertyCode": "SUNSET03",
+      "unitNumber": "101",
+      "monthlyRentAmount": 2900,
+      "rentDueDay": 1,
+      "moveInDate": "2024-06-01",
+      "leaseStartDate": "2024-06-01",
+      "leaseEndDate": "2025-05-31",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    },
+    {
+      "firstName": "Robert",
+      "lastName": "Anderson",
+      "email": "r.anderson@email.com",
+      "phoneNumber": "+1-213-555-1011",
+      "propertyCode": "SUNSET03",
+      "unitNumber": "102",
+      "monthlyRentAmount": 3000,
+      "rentDueDay": 1,
+      "moveInDate": "2024-07-01",
+      "leaseStartDate": "2024-07-01",
+      "leaseEndDate": "2025-06-30",
+      "leaseType": "ONE_YEAR",
+      "status": "ACTIVE"
+    }
+  ]
+}
